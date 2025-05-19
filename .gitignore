@@ -1,0 +1,6 @@
+# Compiled output
+/dist
+/build
+
+# Node.js dependencies
+/node_modules
