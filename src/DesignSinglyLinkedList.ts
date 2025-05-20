@@ -28,6 +28,10 @@ export class LinkedList {
     }
 
     getNode(index: number): ListNode | null {
+        if (index < 0) {
+            return null;
+        }
+
         let current = this.head;
         let i = 0;
 
@@ -46,6 +50,10 @@ export class LinkedList {
     insertHead(val: number) {
         const newHead = new ListNode(val, this.head);
         this.head = newHead;
+
+        if (!this.tail) {
+            this.tail = this.head;
+        }
     }
 
     insertTail(val: number) {
@@ -60,9 +68,29 @@ export class LinkedList {
     }
 
     remove(index: number): boolean {
+        if (!this.head) {
+            return false;
+        }
+
         const prevNode = this.getNode(index - 1);
-        if (!prevNode || !prevNode.next) {
+
+        if (!prevNode) {
+            if (!this.getNode(index)) {
+                return false;
+            }
+
+            this.head = null;
+            return true;
+        }
+
+        if (!prevNode.next) {
             return false
+        }
+
+        if (prevNode.next === this.tail) {
+            this.tail = prevNode;
+            prevNode.next = null;
+            return true;
         }
 
         prevNode.next = prevNode.next.next;
